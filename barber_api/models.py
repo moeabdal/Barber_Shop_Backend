@@ -19,6 +19,7 @@ class Profile(models.Model):
 	image = models.ImageField(blank=True, null=True)
 	experience = models.IntegerField(default=0)
 	services = models.ManyToManyField(Service)
+	nationality = models.CharField(max_length=100)
 
 
 @receiver(post_save, sender=User)
