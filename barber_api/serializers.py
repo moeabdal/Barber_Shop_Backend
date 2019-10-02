@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Profile, Service
+from .models import Barber, Service
 
 
 def get_token(user):
@@ -29,10 +29,10 @@ class UserCreateSerializer(serializers.ModelSerializer):
 		validated_data["access"] = get_token(new_user)
 		return validated_data
 
-class ProfileSerializer(serializers.ModelSerializer):
+class BarberSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Profile
-		fields = ['user', 'image', 'profile_credit', 'experience']
+		model = Barber
+		fields = ['user', 'image', 'credit', 'experience']
 
 class ServiceSerializer(serializers.ModelSerializer):
 	class Meta:

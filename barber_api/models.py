@@ -9,27 +9,18 @@ class Service(models.Model):
 	description = models.TextField()
 	duration = models.DurationField()
 
-class Credit(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='barber_credit')
-	credit = models.IntegerField(default=0)
-
-
-class Profile(models.Model):
+class Barber(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='barber_profile')
 	image = models.ImageField(blank=True, null=True)
 	experience = models.IntegerField(default=0)
 	services = models.ManyToManyField(Service)
 	nationality = models.CharField(max_length=100)
-
-
-@receiver(post_save, sender=User)
-def create_profile(instance, created, **kwargs):
-	if created:
-		Profile.objects.create(user=instance)
+	credit = models.IntegerField(default=0)
 
 @receiver(post_save, sender=User)
-def create_credit(instance, created, **kwargs):
+def create_barber(instance, created, **kwargs):
 	if created:
-		Credit.objects.create(user=instance)
+		Barber.objects.create(user=instance)
+
 
 

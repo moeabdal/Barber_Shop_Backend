@@ -16,14 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from barber_api import views
+from .views import *
 from django.conf.urls.static import static
+from rest_framework_simplejwt.views import (
+	TokenObtainPairView,
+	TokenRefreshView,
+)
+from rest_framework.routers import SimpleRouter
 
-
+router = SimpleRouter()
+router.register("barber", BarberAPIView)
 
 urlpatterns = [
-	path('admin/', admin.site.urls),
-	path('', include('barber_api.urls'))
+	path('register/', UserCreateAPIView.as_view(), name='register'),
+	path('login/', TokenObtainPairView.as_view() , name='login'),
+	path('', include(router.urls))
 ]
 
 
