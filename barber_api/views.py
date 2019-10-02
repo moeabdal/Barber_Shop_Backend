@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView
 from .serializers import UserCreateSerializer, ProfileSerializer, ServiceSerializer
 from rest_framework.viewsets import ModelViewSet
-from .models import Profile
+from .models import Profile, Service
 
 
 class UserCreateAPIView(CreateAPIView):
