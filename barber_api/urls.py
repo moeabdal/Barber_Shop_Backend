@@ -25,13 +25,15 @@ from rest_framework_simplejwt.views import (
 from rest_framework.routers import SimpleRouter
 
 router = SimpleRouter()
-router.register("barber", BarberAPIView)
-router.register("barberprofile", BarberProfileAPIView)
+router.register("barber", BarberProfileAPIView)
 
 
 urlpatterns = [
 	path('register/', UserCreateAPIView.as_view(), name='register'),
 	path('login/', TokenObtainPairView.as_view() , name='login'),
+	path('barber/list/', BarberListAPIView.as_view(), name='barber-list'),
+	path('barber/detail/<int:barber_id>', BarberDetailAPIView.as_view(), name='barber-list'),
+	# path('barber/create/', views.BarberAPIView.as_view(), name='barber-create'),
 	# path(r'^ratings/', include('star_ratings.urls', namespace='ratings', barber_api='ratings')).
 	path('', include(router.urls))
 ]
