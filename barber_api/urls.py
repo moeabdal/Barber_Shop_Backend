@@ -30,6 +30,7 @@ router.register("barber", BarberAPIView)
 urlpatterns = [
 	path('register/', UserCreateAPIView.as_view(), name='register'),
 	path('login/', TokenObtainPairView.as_view() , name='login'),
+	# path(r'^ratings/', include('star_ratings.urls', namespace='ratings', barber_api='ratings')).
 	path('', include(router.urls))
 ]
 

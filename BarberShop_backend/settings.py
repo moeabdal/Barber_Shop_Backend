@@ -39,7 +39,8 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 	'rest_framework',
 	'barber_api',
-	'user_api'
+	'user_api',
+	'star_ratings'
 ]
 
 REST_FRAMEWORK = {
