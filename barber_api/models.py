@@ -27,7 +27,7 @@ class Barber(models.Model):
 	services = models.ManyToManyField(Service, related_name='barbers')
 	nationality = models.CharField(max_length=100)
 	credit = models.IntegerField(default=0)
-	appointments = models.ManyToManyField(Appointment, related_name='barbers')
+
 
 	def __str__(self):
 		return self.user.first_name

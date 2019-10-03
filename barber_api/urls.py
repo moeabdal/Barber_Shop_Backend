@@ -26,6 +26,8 @@ from rest_framework.routers import SimpleRouter
 
 router = SimpleRouter()
 router.register("barber", BarberAPIView)
+router.register("barberprofile", BarberProfileAPIView)
+
 
 urlpatterns = [
 	path('register/', UserCreateAPIView.as_view(), name='register'),

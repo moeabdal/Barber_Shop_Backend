@@ -14,10 +14,15 @@ class BarberAPIView(ModelViewSet):
 	lookup_field = 'id'
 	lookup_url_kwarg = 'barber_id'
 
+class BarberProfileAPIView(ModelViewSet):
+	queryset = Barber.objects.all()
+	serializer_class = BarberSerializer
+	lookup_field = 'id'
+	lookup_url_kwarg = 'profile_id'
+
 	def get_queryset(self):
 		user = self.request.user
 		queryset = self.queryset.filter(user=user)
-		return queryset
 
 
 class ServiceAPIView(ListAPIView):
