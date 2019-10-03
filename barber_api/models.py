@@ -13,7 +13,7 @@ class Service(models.Model):
 		return self.name
 
 class Appointment(models.Model):
-	barber = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_appointments')
+	barber = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments')
 	appointment = models.DateTimeField()
 	available = models.BooleanField(default=True)
 
@@ -24,10 +24,10 @@ class Barber(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='barber')
 	image = models.ImageField(blank=True, null=True)
 	experience = models.IntegerField(default=0)
-	services = models.ManyToManyField(Service, related_name='barber_services')
+	services = models.ManyToManyField(Service, related_name='barbers')
 	nationality = models.CharField(max_length=100)
 	credit = models.IntegerField(default=0)
-	appointments = models.ManyToManyField(Appointment, related_name='barber_appointments')
+	appointments = models.ManyToManyField(Appointment, related_name='barbers')
 
 	def __str__(self):
 		return self.user.first_name

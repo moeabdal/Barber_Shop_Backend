@@ -14,6 +14,12 @@ class BarberAPIView(ModelViewSet):
 	lookup_field = 'id'
 	lookup_url_kwarg = 'barber_id'
 
+	def get_queryset(self):
+		user = self.request.user
+		queryset = self.queryset.filter(user=user)
+		return queryset
+
+
 class ServiceAPIView(ListAPIView):
 	serializer_class = ServiceSerializer
 

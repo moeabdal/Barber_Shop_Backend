@@ -36,16 +36,26 @@ class ServiceSerializer(serializers.ModelSerializer):
 class AppointmentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Appointment
-		exclude ='__all__'
+		fields = '__all__'
 
 class BarberSerializer(serializers.ModelSerializer):
 	name = serializers.SerializerMethodField()
+	appointments = serializers.SerializerMethodField()
+	services = serializers.SerializerMethodField()
 	class Meta:
 		model = Barber
 		fields = ['user', 'name', 'image', 'credit', 'experience', 'services', 'appointments']
 
 	def get_name(self, obj):
 		return "%s %s"%(obj.user.first_name, obj.user.last_name)
+
+	def get_appointments(self, obj):
+		appointment = obj.appointments.all()
+		return AppointmentSerializer(appointment, many=True).data
+
+	def get_services(self, obj):
+		services = obj.services.all()
+		return ServiceSerializer(services, many=True).data
 
 	
 
