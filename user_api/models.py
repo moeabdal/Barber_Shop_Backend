@@ -13,7 +13,3 @@ class Profile(models.Model):
 	credit = models.IntegerField(default=0)
 
 
-@receiver(post_save, sender=User)
-def create_profile(instance, created, **kwargs):
-	if created:
-		Profile.objects.create(user=instance)
