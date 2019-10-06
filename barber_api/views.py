@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from .serializers import UserCreateSerializer, BarberSerializer, ServiceSerializer
 from rest_framework.viewsets import ModelViewSet
 from .models import Barber, Service
@@ -8,15 +8,31 @@ from .models import Barber, Service
 class UserCreateAPIView(CreateAPIView):
 	serializer_class = UserCreateSerializer
 
-class BarberAPIView(ModelViewSet):
+class BarberListAPIView(ListAPIView):
 	queryset = Barber.objects.all()
 	serializer_class = BarberSerializer
-	lookup_field = 'id'
-	lookup_url_kwarg = 'barber_id'
+
+class BarberProfileAPIView(RetrieveAPIView):
+	queryset = Barber.objects.all()
+	serializer_class = BarberSerializer
+
+	def get_object(self):
+		user = self.request.user
+		queryset = self.queryset.get(user=user)
+		return queryset
+
+class BarberUpdateAPIView(UpdateAPIView):
+	queryset = Barber.objects.all()
+	serializer_class = BarberSerializer
+
+	def get_object(self):
+		user = self.request.user
+		queryset = self.queryset.get(user=user)
+		return queryset
+
 
 class ServiceAPIView(ListAPIView):
 	serializer_class = ServiceSerializer
 
-	# override get queryset to filter by Barber
 
 

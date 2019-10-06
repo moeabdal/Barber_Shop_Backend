@@ -22,15 +22,15 @@ from rest_framework_simplejwt.views import (
 	TokenObtainPairView,
 	TokenRefreshView,
 )
-from rest_framework.routers import SimpleRouter
 
-router = SimpleRouter()
-router.register("barber", BarberAPIView)
 
 urlpatterns = [
 	path('register/', UserCreateAPIView.as_view(), name='register'),
 	path('login/', TokenObtainPairView.as_view() , name='login'),
-	path('', include(router.urls))
+	path('barber/list/', BarberListAPIView.as_view(), name='barber-list'),
+	path('barber/profile/', BarberProfileAPIView.as_view(), name='barber-profile'),
+	path('barber/update/', BarberUpdateAPIView.as_view(), name='barber-update'),
+	# path(r'^ratings/', include('star_ratings.urls', namespace='ratings', barber_api='ratings')).
 ]
 
 

@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Barber, Service
-
+from .models import Barber, Service, Appointment
 
 def get_token(user):
 		refresh = RefreshToken.for_user(user)
@@ -30,12 +29,36 @@ class UserCreateSerializer(serializers.ModelSerializer):
 		Barber.objects.create(user=new_user)
 		return validated_data
 
-class BarberSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Barber
-		fields = ['user', 'image', 'credit', 'experience']
-
 class ServiceSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Service
 		fields = '__all__'
+
+class AppointmentSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Appointment
+		fields = '__all__'
+
+
+class BarberSerializer(serializers.ModelSerializer):
+	name = serializers.SerializerMethodField()
+	appointments = serializers.SerializerMethodField()
+	services = serializers.SerializerMethodField()
+	class Meta:
+		model = Barber
+		fields = ['name', 'image', 'credit', 'experience', 'services', 'appointments']
+
+	def get_name(self, obj):
+		return "%s %s"%(obj.user.first_name, obj.user.last_name)
+
+	def get_appointments(self, obj):
+		appointment = obj.user.appointments.all()
+		return AppointmentSerializer(appointment, many=True).data
+
+	def get_services(self, obj):
+		services = obj.services.all()
+		return ServiceSerializer(services, many=True).data
+
+	
+
+
