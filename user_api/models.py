@@ -14,6 +14,6 @@ class Profile(models.Model):
 
 
 @receiver(post_save, sender=User)
-def create_barber(instance, created, **kwargs):
+def create_profile(instance, created, **kwargs):
 	if created:
 		Profile.objects.create(user=instance)

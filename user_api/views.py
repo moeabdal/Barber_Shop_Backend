@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.generics import CreateAPIView
 from rest_framework.viewsets import ModelViewSet
-from .serializers import UserCreateSerializer, ProfileSerilizer
+from .serializers import UserCreateSerializer, ProfileSerializer
 from .models import Profile
 
 class UserCreateAPIView(CreateAPIView):
