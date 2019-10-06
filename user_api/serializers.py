@@ -14,10 +14,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
 		last_name = validated_data['last_name']
         username = validated_data['username']
         password = validated_data['password']
-        new_user = User(username=username)
+
+        new_user = User(username=username, first_name= first_name, last_name=last_name)
+
         new_user.set_password(password)
         new_user.save()
 		validated_data["access"] = get_token(new_user)
+        Profile.objects.create(user=new_user)
         return validated_data
 
 class ProfileSerializer(serializers.ModelSerializer):

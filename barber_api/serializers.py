@@ -27,6 +27,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 		new_user.set_password(password)
 		new_user.save()
 		validated_data["access"] = get_token(new_user)
+		Barber.objects.create(user=new_user)
 		return validated_data
 
 class BarberSerializer(serializers.ModelSerializer):
