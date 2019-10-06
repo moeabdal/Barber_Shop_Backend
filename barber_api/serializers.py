@@ -38,14 +38,6 @@ class AppointmentSerializer(serializers.ModelSerializer):
 		model = Appointment
 		fields = '__all__'
 
-class BarberListSerializer(serializers.ModelSerializer):
-	name = serializers.SerializerMethodField()
-	class Meta:
-		model = Barber
-		fields = ['name', 'image']
-
-	def get_name(self, obj):
-		return "%s %s"%(obj.user.first_name, obj.user.last_name)
 
 class BarberSerializer(serializers.ModelSerializer):
 	name = serializers.SerializerMethodField()
@@ -53,7 +45,7 @@ class BarberSerializer(serializers.ModelSerializer):
 	services = serializers.SerializerMethodField()
 	class Meta:
 		model = Barber
-		fields = ['user', 'name', 'image', 'credit', 'experience', 'services', 'appointments']
+		fields = ['name', 'image', 'credit', 'experience', 'services', 'appointments']
 
 	def get_name(self, obj):
 		return "%s %s"%(obj.user.first_name, obj.user.last_name)

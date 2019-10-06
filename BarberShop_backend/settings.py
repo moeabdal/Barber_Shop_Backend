@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 	'rest_framework',
 	'barber_api',
 	'user_api',
-	'star_ratings'
+	'star_ratings',
 ]
 
 REST_FRAMEWORK = {

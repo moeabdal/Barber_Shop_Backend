@@ -28,17 +28,8 @@ class Barber(models.Model):
 	nationality = models.CharField(max_length=100)
 	credit = models.IntegerField(default=0)
 
-
 	def __str__(self):
 		return self.user.first_name
-
-
-
-
-@receiver(post_save, sender=User)
-def create_barber(instance, created, **kwargs):
-	if created:
-		Barber.objects.create(user=instance)
 
 
 
