@@ -28,8 +28,8 @@ urlpatterns = [
 	path('register/', UserCreateAPIView.as_view(), name='register'),
 	path('login/', TokenObtainPairView.as_view() , name='login'),
 	path('barber/list/', BarberListAPIView.as_view(), name='barber-list'),
-	path('barber/profile/<int:barber_id>/', BarberDetailAPIView.as_view(), name='barber-profile'),
-	path('barber/update/<int:barber_id>/', BarberUpdateAPIView.as_view(), name='barber-update'),
+	path('barber/profile/', BarberProfileAPIView.as_view(), name='barber-profile'),
+	path('barber/update/', BarberUpdateAPIView.as_view(), name='barber-update'),
 	# path(r'^ratings/', include('star_ratings.urls', namespace='ratings', barber_api='ratings')).
 ]
 

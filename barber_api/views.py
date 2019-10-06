@@ -12,26 +12,22 @@ class BarberListAPIView(ListAPIView):
 	queryset = Barber.objects.all()
 	serializer_class = BarberSerializer
 
-class BarberDetailAPIView(RetrieveAPIView):
+class BarberProfileAPIView(RetrieveAPIView):
 	queryset = Barber.objects.all()
 	serializer_class = BarberSerializer
-	lookup_field = 'id'
-	lookup_url_kwarg = 'barber_id'
 
-	def get_queryset(self):
+	def get_object(self):
 		user = self.request.user
-		queryset = self.queryset.filter(user=user)
+		queryset = self.queryset.get(user=user)
 		return queryset
 
 class BarberUpdateAPIView(UpdateAPIView):
 	queryset = Barber.objects.all()
 	serializer_class = BarberSerializer
-	lookup_field = 'id'
-	lookup_url_kwarg = 'barber_id'
 
-	def get_queryset(self):
+	def get_object(self):
 		user = self.request.user
-		queryset = self.queryset.filter(user=user)
+		queryset = self.queryset.get(user=user)
 		return queryset
 
 
