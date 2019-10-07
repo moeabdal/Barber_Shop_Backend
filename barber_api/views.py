@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
-from .serializers import UserCreateSerializer, BarberSerializer, ServiceSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from .serializers import UserCreateSerializer, BarberSerializer, ServiceSerializer, AppointmentSerializer, AppointmentCreateSerializer
 from rest_framework.viewsets import ModelViewSet
-from .models import Barber, Service
+from .models import Barber, Service, Appointment
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -30,6 +30,16 @@ class BarberUpdateAPIView(UpdateAPIView):
 		queryset = self.queryset.get(user=user)
 		return queryset
 
+class AppoinmentCreateAPIView(CreateAPIView):
+	serializer_class = AppointmentCreateSerializer
+
+	def perform_create(self, serializer):
+		serializer.save(barber=self.request.user.barber)
+
+class AppointmentDeleteAPIView(DestroyAPIView):
+	queryset = Appointment.objects.all()
+	lookup_field = 'id'
+	lookup_url_kwarg = 'appointment_id'
 
 class ServiceAPIView(ListAPIView):
 	serializer_class = ServiceSerializer

@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Barber, Service, Appointment
+from datetime import datetime
 
 def get_token(user):
 		refresh = RefreshToken.for_user(user)
@@ -35,25 +36,52 @@ class ServiceSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class AppointmentSerializer(serializers.ModelSerializer):
+	barber_name = serializers.SerializerMethodField()
+	customer_name = serializers.SerializerMethodField()
+	services = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='name'
+     )
+
 	class Meta:
 		model = Appointment
-		fields = '__all__'
+		fields = ['barber_name', 'customer_name', 'appointment', 'available', 'services']
+
+	def get_barber_name(self, obj):
+		return obj.barber.user.first_name
+
+	def get_customer_name(self, obj):
+		if obj.user:
+			return obj.user.user.first_name
+		else:
+			return ("")
+
+class AppointmentCreateSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Appointment
+		fields = ['appointment']
 
 
 class BarberSerializer(serializers.ModelSerializer):
 	name = serializers.SerializerMethodField()
-	appointments = serializers.SerializerMethodField()
+	future_appointments = serializers.SerializerMethodField()
 	services = serializers.SerializerMethodField()
+	past_appointments = serializers.SerializerMethodField()
 	class Meta:
 		model = Barber
-		fields = ['name', 'image', 'credit', 'experience', 'services', 'appointments']
+		fields = ['user', 'name', 'image','nationality', 'credit', 'experience', 'services', 'future_appointments', 'past_appointments']
 
 	def get_name(self, obj):
 		return "%s %s"%(obj.user.first_name, obj.user.last_name)
 
-	def get_appointments(self, obj):
-		appointment = obj.user.appointments.all()
-		return AppointmentSerializer(appointment, many=True).data
+	def get_future_appointments(self, obj):
+		appointments = obj.barber_appointments.filter(appointment__gte=datetime.now())
+		return AppointmentSerializer(appointments, many=True).data
+
+	def get_past_appointments(self, obj):
+		appointments = obj.barber_appointments.filter(appointment__lte=datetime.now())
+		return AppointmentSerializer(appointments, many=True).data
 
 	def get_services(self, obj):
 		services = obj.services.all()

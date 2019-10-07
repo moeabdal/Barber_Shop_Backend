@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from user_api.models import Profile
 
 class Service(models.Model):
 	name = models.CharField(max_length=100)
@@ -11,14 +12,6 @@ class Service(models.Model):
 
 	def __str__(self):
 		return self.name
-
-class Appointment(models.Model):
-	barber = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments')
-	appointment = models.DateTimeField()
-	available = models.BooleanField(default=True)
-
-	def __str__(self):
-		return "%s Appointment"%(self.barber.first_name)
 
 class Barber(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='barber')
@@ -33,5 +26,12 @@ class Barber(models.Model):
 		return self.user.first_name
 
 
+class Appointment(models.Model):
+	barber = models.ForeignKey(Barber, on_delete=models.CASCADE, related_name='barber_appointments')
+	user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user_appointments', null=True, blank=True)
+	appointment = models.DateTimeField()
+	available = models.BooleanField(default=True)
+	services = models.ManyToManyField(Service)
 
-
+	def __str__(self):
+		return "%s %s's Appointment (%s)"%(self.barber.user.first_name, self.barber.user.last_name, self.id)

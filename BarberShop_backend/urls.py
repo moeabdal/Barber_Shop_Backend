@@ -18,11 +18,15 @@ from django.urls import path, include
 from django.conf import settings
 from barber_api import views
 from django.conf.urls.static import static
-
+from rest_framework_simplejwt.views import (
+	TokenObtainPairView,
+	TokenRefreshView,
+)
 
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
+	path('login/', TokenObtainPairView.as_view() , name='login'),
 	path('barber/', include('barber_api.urls')),
 	path('user/', include('user_api.urls'))
 ]
