@@ -17,6 +17,7 @@ class Barber(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='barber')
 	image = models.ImageField(blank=True, null=True)
 	experience = models.IntegerField(default=0)
+	telephone = models.IntegerField(default=0)
 	services = models.ManyToManyField(Service, related_name='barbers')
 	nationality = models.CharField(max_length=100)
 	credit = models.IntegerField(default=0)

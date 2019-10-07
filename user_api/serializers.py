@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Profile
-from barber_api.models import Appointment
+from barber_api.models import Appointment, Service
 from barber_api.serializers import AppointmentSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
@@ -56,6 +56,7 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
 		fields = ['image', 'telephone', 'address']
 
 class AppointmentUpdateSerializer(serializers.ModelSerializer):
+	services = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())
 	class Meta:
 		model = Appointment
-		fields = ['available']		
+		fields = ['services']		
