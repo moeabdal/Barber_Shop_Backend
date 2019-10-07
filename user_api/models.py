@@ -9,7 +9,9 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
 	image = models.ImageField(blank=True, null=True)
 	telephone = models.IntegerField(default=0)
-	address = models.CharField(max_length=100)
+	address = models.CharField(max_length=100, null=True, blank=True)
 	credit = models.IntegerField(default=0)
 
+	def __str__(self):
+		return self.user.first_name
 
