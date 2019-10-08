@@ -26,10 +26,18 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
 	path('register/', UserCreateAPIView.as_view(), name='register'),
+<<<<<<< HEAD
 	path('login/', TokenObtainPairView.as_view() , name='login'),
 	path('list/', BarberListAPIView.as_view(), name='barber-list'),
 	path('profile/', BarberProfileAPIView.as_view(), name='barber-profile'),
 	path('update/', BarberUpdateAPIView.as_view(), name='barber-update'),
+=======
+	path('list/', BarberListAPIView.as_view(), name='barber-list'),
+	path('profile/', BarberProfileAPIView.as_view(), name='barber-profile'),
+	path('profile/update/', BarberUpdateAPIView.as_view(), name='barber-update'),
+	path('appointment/create/', AppoinmentCreateAPIView.as_view(), name='appointments'),
+	path('appointment/delete/<int:appointment_id>/', AppointmentDeleteAPIView.as_view(), name='apppointment-update'),
+>>>>>>> b49adca31d73f30462fb68561e24ac3118771d84
 	# path(r'^ratings/', include('star_ratings.urls', namespace='ratings', barber_api='ratings')).
 ]
 
