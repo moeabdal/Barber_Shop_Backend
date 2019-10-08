@@ -57,6 +57,17 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
 
 class AppointmentUpdateSerializer(serializers.ModelSerializer):
 	services = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())
+	total_duration = serializers.SerializerMethodField()
 	class Meta:
 		model = Appointment
-		fields = ['services']		
+		fields = ['services', 'total_duration', 'total_duration']	
+
+	def get_total_duration(self, obj):
+		total = 0
+		for service in services:
+			service.duration + total
+			return total
+
+
+
+
