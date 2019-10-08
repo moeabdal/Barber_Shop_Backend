@@ -43,11 +43,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 		return "%s %s"%(obj.user.first_name, obj.user.last_name)
 
 	def get_future_appointments(self, obj):
-		appointments = obj.user_appointments.filter(appointment__gte=datetime.now())
+		appointments = obj.user_appointments.filter(date_and_time__gte=datetime.now())
 		return AppointmentSerializer(appointments, many=True).data
 
 	def get_past_appointments(self, obj):
-		appointments = obj.user_appointments.filter(appointment__lte=datetime.now())
+		appointments = obj.user_appointments.filter(date_and_time__lte=datetime.now())
 		return AppointmentSerializer(appointments, many=True).data
 
 class ProfileUpdateSerializer(serializers.ModelSerializer):
