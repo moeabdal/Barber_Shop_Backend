@@ -46,7 +46,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Appointment
-		fields = ['barber_name', 'customer_name', 'date_and_time', 'available', 'services']
+		fields = ['id', 'barber_name', 'customer_name', 'date_and_time', 'available', 'services']
 
 	def get_barber_name(self, obj):
 		return obj.barber.user.first_name
@@ -71,7 +71,7 @@ class BarberSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Barber
-		fields = ['name', 'image','nationality', 'telephone', 'credit', 'experience', 'services', 'future_appointments', 'past_appointments']
+		fields = ['user', 'name', 'image','nationality', 'telephone', 'credit', 'experience', 'services', 'future_appointments', 'past_appointments']
 
 	def get_name(self, obj):
 		return "%s %s"%(obj.user.first_name, obj.user.last_name)

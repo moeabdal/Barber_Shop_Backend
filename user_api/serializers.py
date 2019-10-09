@@ -5,6 +5,7 @@ from barber_api.models import Appointment, Service
 from barber_api.serializers import AppointmentSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
+from django.db.models import Sum
 
 def get_token(user):
 		refresh = RefreshToken.for_user(user)
@@ -57,6 +58,16 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
 
 class AppointmentUpdateSerializer(serializers.ModelSerializer):
 	services = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())
+	total_price = serializers.SerializerMethodField()
 	class Meta:
 		model = Appointment
-		fields = ['services']		
+		fields = ['services', 'total_price']
+
+
+	def get_total_price(self, obj):
+		total = obj.services.aggregate(Sum('price'))
+		return total.get('price__sum')
+
+
+
+
