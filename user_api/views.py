@@ -42,4 +42,4 @@ class AppointmentUpdateAPIView(UpdateAPIView):
 		if self.get_object().user and self.request.data.get('services') == None:
 			serializer.save(user=None, available=True)
 		else:
-			serializer.save(user=self.request.user.user_profile)
+			serializer.save(user=self.request.user.user_profile, available=False)
