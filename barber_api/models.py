@@ -32,7 +32,7 @@ class Appointment(models.Model):
 	user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user_appointments', null=True, blank=True)
 	date_and_time = models.DateTimeField()
 	available = models.BooleanField(default=True)
-	services = models.ManyToManyField(Service, related_name='services')
+	services = models.ManyToManyField(Service, related_name='appointments')
 
 	def __str__(self):
 		return "%s %s's Appointment (%s)"%(self.barber.user.first_name, self.barber.user.last_name, self.id)

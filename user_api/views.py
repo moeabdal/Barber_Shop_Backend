@@ -42,7 +42,4 @@ class AppointmentUpdateAPIView(UpdateAPIView):
 		if self.get_object().user and self.request.data.get('services') == None:
 			serializer.save(user=None, available=True)
 		else:
-			total_price = Appointment.objects.annotate(total_price=Sum('services__price'))
-			print (total_price)
-			# print (self.get_object().user.credit)
 			serializer.save(user=self.request.user.user_profile)
