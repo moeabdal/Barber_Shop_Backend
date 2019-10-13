@@ -18,10 +18,6 @@ from django.urls import path, include
 from django.conf import settings
 from .views import *
 from django.conf.urls.static import static
-from rest_framework_simplejwt.views import (
-	TokenObtainPairView,
-	TokenRefreshView,
-)
 
 
 urlpatterns = [
@@ -30,7 +26,8 @@ urlpatterns = [
 	path('profile/', BarberProfileAPIView.as_view(), name='barber-profile'),
 	path('profile/update/', BarberUpdateAPIView.as_view(), name='barber-update'),
 	path('appointment/create/', AppoinmentCreateAPIView.as_view(), name='appointments'),
-	path('appointment/delete/<int:appointment_id>/', AppointmentDeleteAPIView.as_view(), name='apppointment-update'),
+	path('appointment/delete/<int:appointment_id>/', AppointmentDeleteAPIView.as_view(), name='apppointment-delete'),
+	path('appointment/update/<int:appointment_id>/', BarberAppointmentUpdateAPIView.as_view(), name='apppointment-update')
 	# path(r'^ratings/', include('star_ratings.urls', namespace='ratings', barber_api='ratings')).
 ]
 

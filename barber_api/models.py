@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from user_api.models import Profile
+from django.db.models import Sum
 
 class Service(models.Model):
 	name = models.CharField(max_length=100)
@@ -36,3 +37,7 @@ class Appointment(models.Model):
 
 	def __str__(self):
 		return "%s %s's Appointment (%s)"%(self.barber.user.first_name, self.barber.user.last_name, self.id)
+
+	def total_price(self):
+		total = self.services.aggregate(Sum('price'))
+		return total.get('price__sum')
