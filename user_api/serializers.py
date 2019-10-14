@@ -64,16 +64,13 @@ class AppointmentUpdateSerializer(serializers.ModelSerializer):
 		model = Appointment
 		fields = ['services', 'total_price', 'total_duration_minutes']
 
-
 	def get_total_price(self, obj):
-		total = obj.services.aggregate(Sum('price'))
-		return total.get('price__sum')
+		return obj.total_price()
 
 	def get_total_duration_minutes(self, obj):
 		total = obj.services.aggregate(Sum('duration'))
 		total_minutes = total.get('duration__sum')/60
 		return total_minutes
-
 
 
 

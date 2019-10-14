@@ -25,7 +25,6 @@ class ProfileUpdateAPIView(UpdateAPIView):
 	serializer_class = ProfileUpdateSerializer
 	permission_classes = [IsAuthenticated]
 
-
 	def get_object(self):
 		user = self.request.user
 		queryset = self.queryset.get(user=user)
