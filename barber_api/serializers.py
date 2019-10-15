@@ -91,27 +91,29 @@ class BarberSerializer(serializers.ModelSerializer):
 
 	def get_appointments(self, obj):
 		appointments = obj.barber_appointments.all().order_by('date_and_time')
+		changed = False
 		if appointments:
 			date = appointments[0].date_and_time.date()
 			dictionary = { 'dates' : 
 				[] 
 			}
-			changed = True
 			app_list = []
-			for a in appointments:
-				# print (a.date_and_time.date())
-				if a.date_and_time.date() == date:
-					print("appending")
-					print(a.date_and_time.date())
+			if obj.barber_appointments.exclude(date_and_time__date=date):
+				for a in appointments:
+					if a.date_and_time.date() == date:
+						app_list.append(AppointmentTimeSerializer(a).data)
+					else:
+						dictionary["dates"].append({"date":str(date), "times":app_list})
+						date = a.date_and_time.date()
+						app_list = []
+						app_list.append(AppointmentTimeSerializer(a).data)
+				
+				dictionary["dates"].append({"date":str(date), "times":app_list})
+
+			else:
+				for a in appointments:
 					app_list.append(AppointmentTimeSerializer(a).data)
-				else:
-					print("clearing")
-					print(a.date_and_time.date())
-					dictionary["dates"].append({"date":str(date), "times":app_list})
-					date = a.date_and_time.date()
-					app_list = []
-					app_list.append(AppointmentTimeSerializer(a).data)
-					dictionary[str(date)] = app_list
+				dictionary["dates"].append({"date":str(date), "times":app_list})
 
 			return dictionary
 
