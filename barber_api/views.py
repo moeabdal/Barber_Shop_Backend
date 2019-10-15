@@ -60,7 +60,7 @@ class BarberAppointmentUpdateAPIView(UpdateAPIView):
 	serializer_class = BarberAppointmentUpdateSerializer
 	lookup_field = 'id'
 	lookup_url_kwarg = 'appointment_id'
-	# permission_classes = [IsAuthenticated, IsBarber]
+	permission_classes = [IsAuthenticated, IsBarber]
 
 	def perform_update(self, serializer):
 		if self.get_object().barber:

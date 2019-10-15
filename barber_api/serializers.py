@@ -79,33 +79,47 @@ class AppointmentTimeSerializer(serializers.ModelSerializer):
         return str(obj.date_and_time.time())
 
 class BarberSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
-    appointments = serializers.SerializerMethodField()
-    services = serializers.SerializerMethodField()
-    past_appointments = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Barber
-        fields = ['user', 'name', 'image','nationality', 'telephone', 'credit', 'experience', 'services', 'appointments', 'past_appointments']
+	name = serializers.SerializerMethodField()
+	appointments = serializers.SerializerMethodField()
+	services = serializers.SerializerMethodField()
+	class Meta:
+		model = Barber
+		fields = ['user', 'name', 'image','nationality', 'telephone', 'credit', 'experience', 'services', 'appointments']
 
-    def get_name(self, obj):
-        return "%s %s"%(obj.user.first_name, obj.user.last_name)
+	def get_name(self, obj):
+		return "%s %s"%(obj.user.first_name, obj.user.last_name)
 
-    def get_appointments(self, obj):
-        appointments = obj.barber_appointments.all().order_by('date_and_time')
-        dictionary = {}
-        for a in appointments:
-            current_date = a.date_and_time.date() 
-            dictionary.setdefault(str(current_date), []).append(AppointmentTimeSerializer(a).data)
-        return dictionary
+	def get_appointments(self, obj):
+		appointments = obj.barber_appointments.all().order_by('date_and_time')
+		if appointments:
+			date = appointments[0].date_and_time.date()
+			dictionary = { 'dates' : 
+				[] 
+			}
+			changed = True
+			app_list = []
+			for a in appointments:
+				# print (a.date_and_time.date())
+				if a.date_and_time.date() == date:
+					print("appending")
+					print(a.date_and_time.date())
+					app_list.append(AppointmentTimeSerializer(a).data)
+				else:
+					print("clearing")
+					print(a.date_and_time.date())
+					dictionary["dates"].append({"date":str(date), "times":app_list})
+					date = a.date_and_time.date()
+					app_list = []
+					app_list.append(AppointmentTimeSerializer(a).data)
+					dictionary[str(date)] = app_list
 
-    def get_past_appointments(self, obj):
-        past_appointments = obj.barber_appointments.filter(date_and_time=datetime.now())
-        return AppointmentSerializer(past_appointments, many=True).data
+			return dictionary
 
-    def get_services(self, obj):
-        services = obj.services.all()
-        return ServiceSerializer(services, many=True).data
+	def get_services(self, obj):
+		services = obj.services.all()
+		return ServiceSerializer(services, many=True).data
+
 
 
 class BarberProfileSerializer(serializers.ModelSerializer):
