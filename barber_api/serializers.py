@@ -127,10 +127,11 @@ class BarberProfileSerializer(serializers.ModelSerializer):
 	services = serializers.SerializerMethodField()
 	future_appointments = serializers.SerializerMethodField()
 	past_appointments = serializers.SerializerMethodField()
+	is_barber = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Barber
-		fields = ['user', 'name', 'image','nationality', 'telephone', 'credit', 'experience', 'services', 'future_appointments', 'past_appointments']
+		fields = ['is_barber', 'user', 'name', 'image','nationality', 'telephone', 'credit', 'experience', 'services', 'future_appointments', 'past_appointments']
 
 	def get_name(self, obj):
 		return "%s %s"%(obj.user.first_name, obj.user.last_name)
@@ -146,6 +147,9 @@ class BarberProfileSerializer(serializers.ModelSerializer):
 	def get_services(self, obj):
 		services = obj.services.all()
 		return ServiceSerializer(services, many=True).data
+
+	def get_is_barber(self, obj):
+		return True
 
 	
 

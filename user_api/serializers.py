@@ -36,9 +36,10 @@ class ProfileSerializer(serializers.ModelSerializer):
 	name = serializers.SerializerMethodField()
 	future_appointments = serializers.SerializerMethodField()
 	past_appointments = serializers.SerializerMethodField()
+	is_barber = serializers.SerializerMethodField()
 	class Meta:
 		model = Profile
-		fields = ['name', 'image', 'telephone', 'address', 'future_appointments', 'past_appointments']
+		fields = ['is_barber', 'name', 'image', 'telephone', 'address', 'future_appointments', 'past_appointments']
 
 	def get_name(self, obj):
 		return "%s %s"%(obj.user.first_name, obj.user.last_name)
@@ -50,6 +51,10 @@ class ProfileSerializer(serializers.ModelSerializer):
 	def get_past_appointments(self, obj):
 		appointments = obj.user_appointments.filter(date_and_time__lte=datetime.now())
 		return AppointmentSerializer(appointments, many=True).data
+
+	def get_is_barber(self, obj):
+		return False
+
 
 class ProfileUpdateSerializer(serializers.ModelSerializer):
 	class Meta:
