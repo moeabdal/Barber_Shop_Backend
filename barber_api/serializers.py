@@ -127,7 +127,7 @@ class BarberProfileSerializer(serializers.ModelSerializer):
 	services = serializers.SerializerMethodField()
 	future_appointments = serializers.SerializerMethodField()
 	past_appointments = serializers.SerializerMethodField()
-	is_barber = serializers.SerializerMethodField()
+	is_barber = serializers.BooleanField(default=True)
 
 	class Meta:
 		model = Barber
@@ -147,9 +147,6 @@ class BarberProfileSerializer(serializers.ModelSerializer):
 	def get_services(self, obj):
 		services = obj.services.all()
 		return ServiceSerializer(services, many=True).data
-
-	def get_is_barber(self, obj):
-		return True
 
 	
 
