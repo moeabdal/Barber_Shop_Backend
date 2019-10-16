@@ -61,7 +61,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
             return ("")
 
     def get_customer_address(self, obj):
-        return obj.user.address
+        if not obj.available:
+            return obj.user.address
 
 class AppointmentCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -149,7 +150,6 @@ class BarberProfileSerializer(serializers.ModelSerializer):
         services = obj.services.all()
         return ServiceSerializer(services, many=True).data
 
-    
 
 class BarberAppointmentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -169,6 +169,6 @@ class BarberAppointmentsSerializer(serializers.ModelSerializer):
     def get_appointments(self, obj):
         date = datetime.now()
         obj.barber_appointments.all()
-        returm
+        return "hi"
         
 
