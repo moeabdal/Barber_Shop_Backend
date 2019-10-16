@@ -22,12 +22,14 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 	path('register/', UserCreateAPIView.as_view(), name='register'),
+	path('update/', BarberUpdateAPIView.as_view(), name='barber-update'),
 	path('list/', BarberListAPIView.as_view(), name='barber-list'),
 	path('profile/', BarberProfileAPIView.as_view(), name='barber-profile'),
 	path('profile/update/', BarberUpdateAPIView.as_view(), name='barber-update'),
 	path('appointment/create/', AppoinmentCreateAPIView.as_view(), name='appointments'),
 	path('appointment/delete/<int:appointment_id>/', AppointmentDeleteAPIView.as_view(), name='apppointment-delete'),
 	path('appointment/update/<int:appointment_id>/', BarberAppointmentUpdateAPIView.as_view(), name='apppointment-update')
+
 	# path(r'^ratings/', include('star_ratings.urls', namespace='ratings', barber_api='ratings')).
 ]
 
