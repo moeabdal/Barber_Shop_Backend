@@ -9,7 +9,7 @@ ecdsa==0.13.2
 future==0.17.1
 Pillow==6.1.0
 pyasn1==0.4.7
-PyJWT==1.7.1
+PyJWT==2.4.0
 python-jose==3.0.1
 pytz==2019.2
 rsa==4.0
